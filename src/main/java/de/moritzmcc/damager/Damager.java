@@ -1,16 +1,13 @@
-package de.moritzmcc.training.damager;
+package de.moritzmcc.damager;
 
 
 import de.moritzmcc.training.Main;
-import de.moritzmcc.training.config.DamagerConfigManager;
-import de.moritzmcc.training.util.Area;
-import de.moritzmcc.training.util.HologramUtils;
+import de.moritzmcc.config.DamagerConfigManager;
+import de.moritzmcc.util.Area;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

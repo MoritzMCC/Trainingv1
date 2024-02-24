@@ -1,6 +1,6 @@
-package de.moritzmcc.training.util;
+package de.moritzmcc.util;
 
-import de.moritzmcc.training.config.DamagerConfigManager;
+import de.moritzmcc.config.DamagerConfigManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

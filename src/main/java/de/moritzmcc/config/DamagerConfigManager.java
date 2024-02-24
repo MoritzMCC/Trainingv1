@@ -1,4 +1,4 @@
-package de.moritzmcc.training.config;
+package de.moritzmcc.config;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;

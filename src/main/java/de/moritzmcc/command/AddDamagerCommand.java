@@ -1,9 +1,7 @@
-package de.moritzmcc.training.command;
+package de.moritzmcc.command;
 
-import de.moritzmcc.training.Main;
-import de.moritzmcc.training.config.DamagerConfigManager;
-import de.moritzmcc.training.damager.Damager;
-import de.moritzmcc.training.util.HologramUtils;
+import de.moritzmcc.config.DamagerConfigManager;
+import de.moritzmcc.util.HologramUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;

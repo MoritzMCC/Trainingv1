@@ -1,17 +1,17 @@
-package de.moritzmcc.training.command;
+package de.moritzmcc.command;
 
-import de.moritzmcc.training.Main;
-import de.moritzmcc.training.config.DamagerConfigManager;
-import de.moritzmcc.training.damager.Damager;
-import de.moritzmcc.training.util.HologramUtils;
-import org.bukkit.Bukkit;
+
+import de.moritzmcc.config.DamagerConfigManager;
+
+import de.moritzmcc.util.HologramUtils;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class RemoveDamager implements CommandExecutor {
+public class RedirectDamager implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
@@ -19,29 +19,24 @@ public class RemoveDamager implements CommandExecutor {
         if (!(commandSender instanceof Player)) return false;
         Player player = (Player) commandSender;
 
-        if (strings.length != 2) {
-            player.sendMessage(ChatColor.GREEN + "Please Use: " + ChatColor.AQUA + "/deleteDamager name true");
+        if (strings.length != 1) {
+            player.sendMessage(ChatColor.GREEN + "Please Use: " + ChatColor.AQUA + "/redirectDamager name");
             return false;
         }
         if (!DamagerConfigManager.containsDamager(strings[0])) {
             player.sendMessage(ChatColor.DARK_RED + "This damager does not exist. Use one of the following " + DamagerConfigManager.getAllDamagers());
             return false;
         }
-        if (!strings[1].equalsIgnoreCase("true")) {
-            player.sendMessage(ChatColor.GREEN + "Please Use: " + ChatColor.AQUA + "/deleteDamager name true");
-            return false;
-        }
 
         String name = strings[0];
+        Location location = player.getLocation();
 
         try {
-            DamagerConfigManager.deleteDamager(name);
-            player.sendMessage(ChatColor.GREEN + name + " successfully deleted");
+            DamagerConfigManager.redirectDamager(name, location);
+            player.sendMessage(ChatColor.DARK_GREEN + name + " successfully moved");
             HologramUtils.reloadHologramms(player.getWorld());
 
-
-
-        } catch (Exception e) {
+        }catch (Exception e){
             player.sendMessage("An Error occurred: " + e);
         }
 

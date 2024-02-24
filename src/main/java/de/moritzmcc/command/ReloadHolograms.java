@@ -1,6 +1,6 @@
-package de.moritzmcc.training.command;
+package de.moritzmcc.command;
 
-import de.moritzmcc.training.util.HologramUtils;
+import de.moritzmcc.util.HologramUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
