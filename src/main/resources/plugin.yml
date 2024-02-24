@@ -18,3 +18,5 @@ commands:
   reloadholograms:
     description: Reload the holograms.
 
+  build:
+    description: Build a new damager.
