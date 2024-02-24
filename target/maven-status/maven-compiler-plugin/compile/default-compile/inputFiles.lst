@@ -1,0 +1,11 @@
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/util/Area.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/command/RemoveDamager.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/damager/Damager.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/Main.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/command/AddDamagerCommand.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/util/HologramUtils.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/command/RedirectDamager.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/listener/MoveListener.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/config/DamagerConfig.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/command/EditDamagerCommand.java
+/Users/moritzengers/Desktop/Development/Training/src/main/java/de/moritzmcc/training/config/DamagerConfigManager.java

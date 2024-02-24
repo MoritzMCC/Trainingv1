@@ -1,0 +1,12 @@
+de/moritzmcc/training/util/Area.class
+de/moritzmcc/training/Main.class
+de/moritzmcc/training/command/ReloadHolograms.class
+de/moritzmcc/training/config/DamagerConfig.class
+de/moritzmcc/training/damager/Damager.class
+de/moritzmcc/training/util/HologramUtils.class
+de/moritzmcc/training/command/EditDamagerCommand.class
+de/moritzmcc/training/command/RedirectDamager.class
+de/moritzmcc/training/config/DamagerConfigManager.class
+de/moritzmcc/training/listener/MoveListener.class
+de/moritzmcc/training/command/RemoveDamager.class
+de/moritzmcc/training/command/AddDamagerCommand.class
