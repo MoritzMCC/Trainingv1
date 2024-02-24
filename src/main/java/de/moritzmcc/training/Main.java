@@ -1,10 +1,8 @@
 package de.moritzmcc.training;
 
-import de.moritzmcc.training.command.*;
-import de.moritzmcc.training.damager.Damager;
-import de.moritzmcc.training.listener.MoveListener;
-import de.moritzmcc.training.util.HologramUtils;
-import org.bukkit.ChatColor;
+import de.moritzmcc.command.*;
+import de.moritzmcc.damager.Damager;
+import de.moritzmcc.util.HologramUtils;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
