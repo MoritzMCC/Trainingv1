@@ -1,0 +1,22 @@
+name: Training
+version: '1.0-SNAPSHOT'
+main: de.moritzmcc.training.Main
+api-version: '1.20'
+commands:
+  adddamager:
+    description: Create a new damager.
+
+  deletedamager:
+    description: Remove a damager.
+
+  editdamager:
+    description: Edit a damager.
+
+  redirectdamager:
+    description: Redirect a damager.
+
+  reloadholograms:
+    description: Reload the holograms.
+
+  build:
+    description: Build a new damager.

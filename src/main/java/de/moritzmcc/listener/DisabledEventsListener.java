@@ -1,6 +1,8 @@
 package de.moritzmcc.listener;
 
 import de.moritzmcc.command.BuildCommand;
+import org.bukkit.entity.HumanEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
@@ -13,42 +15,44 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class DisabledEventsListener implements Listener {
     @EventHandler
     public void onAttack(EntityDamageEvent event) {
-        if(BuildCommand.buildMode) {
+        if(BuildCommand.playersInBuildMode.contains(event.getEntity().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onBreak(BlockBreakEvent event) {
-        if(BuildCommand.buildMode) {
+        if(BuildCommand.playersInBuildMode.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onPlace(BlockPlaceEvent event) {
-        if(BuildCommand.buildMode) {
+        if(BuildCommand.playersInBuildMode.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        if(BuildCommand.buildMode) {
+        if(BuildCommand.playersInBuildMode.contains(event.getWhoClicked().getUniqueId())) {
             event.setCancelled(true);
         }
     }
 
     @EventHandler
     public void onInventoryMove(InventoryMoveItemEvent event) {
-        if(BuildCommand.buildMode) {
-            event.setCancelled(true);
+        for (HumanEntity humanEntity: event.getInitiator().getViewers()) {
+            if (BuildCommand.playersInBuildMode.contains(humanEntity.getUniqueId())) {
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler
     public void onInteract(PlayerInteractEvent event) {
-        if(BuildCommand.buildMode) {
+        if(BuildCommand.playersInBuildMode.contains(event.getPlayer().getUniqueId())) {
             event.setCancelled(true);
         }
     }
