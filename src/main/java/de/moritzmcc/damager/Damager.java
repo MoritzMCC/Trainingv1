@@ -14,7 +14,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryAction;
+import org.bukkit.event.inventory.InventoryEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -51,6 +54,26 @@ public class Damager implements Listener {
         onEnter(player, damagername);
     }
 }
+
+    @EventHandler(priority =  EventPriority.HIGHEST)
+    public void onOpenInventory(InventoryOpenEvent event){
+        Bukkit.broadcastMessage("openinventory");
+        if (event.getInventory().getType() != InventoryType.PLAYER) {
+            Bukkit.broadcastMessage("Not a player inventory");
+            return;
+        }
+        if (!(event.getPlayer() instanceof  Player))return;
+        Player player = (Player) event.getPlayer();
+
+        if (!players.containsKey(player.getUniqueId())) return;
+
+        String damagerName = players.get(player.getUniqueId());
+        if ("randominventory".equalsIgnoreCase(DamagerConfigManager.getDamagerType(damagerName))) {
+            player.getInventory().clear();
+            player.getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
+            RandomInventoryDamager.setRandomInventory(player);
+        }
+    }
 
     public void onEnter(Player player, String damagername) {
         player.sendMessage("You entered " + damagername);
@@ -152,20 +175,6 @@ public class Damager implements Listener {
     }
 
 
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onOpenInventory(InventoryOpenEvent event){
-        Bukkit.broadcastMessage("openinventory");
-        if (!(event.getPlayer() instanceof  Player))return;
-        Player player = (Player) event.getPlayer();
 
-        if (!players.containsKey(player.getUniqueId())) return;
-
-        String damagerName = players.get(player.getUniqueId());
-        if ("randominventory".equalsIgnoreCase(DamagerConfigManager.getDamagerType(damagerName))) {
-            player.getInventory().clear();
-            player.getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
-            RandomInventoryDamager.setRandomInventory(player);
-        }
-    }
 }
 

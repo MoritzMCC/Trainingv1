@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class RandomInventoryDamager implements Listener {
+public class RandomInventoryDamager {
 
 
 
@@ -57,6 +58,7 @@ public class RandomInventoryDamager implements Listener {
 
 player.sendMessage(inventoryItemsType + "");
     }
+
 
 
 }
