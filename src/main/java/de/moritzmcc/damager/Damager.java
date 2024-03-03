@@ -158,7 +158,7 @@ public class Damager implements Listener {
 
     @EventHandler(priority =  EventPriority.HIGHEST)
     public void onOpenInventory(InventoryOpenEvent event){
-        Bukkit.broadcastMessage("openinventory");
+
         if (event.getInventory().getType() != InventoryType.PLAYER) {
             Bukkit.broadcastMessage("Not a player inventory");
             return;
