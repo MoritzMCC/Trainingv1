@@ -1,6 +1,7 @@
 package de.moritzmcc.damager;
 
 
+import de.moritzmcc.damager.spezialDamagers.RandomInventoryDamager;
 import de.moritzmcc.training.Main;
 import de.moritzmcc.config.DamagerConfigManager;
 import de.moritzmcc.util.Area;
@@ -10,8 +11,10 @@ import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -52,8 +55,10 @@ public class Damager implements Listener {
     public void onEnter(Player player, String damagername) {
         player.sendMessage("You entered " + damagername);
         succecfullMap.put(player.getUniqueId(), false);
+        players.put(player.getUniqueId(), damagername);
         PlayerInventory inventory = player.getInventory();
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+        player.setNoDamageTicks(DamagerConfigManager.getDamagerTickspeed(damagername));
         inventory.clear();
         inventory.addItem(new ItemStack(Material.STONE_SWORD));
 
@@ -95,7 +100,7 @@ public class Damager implements Listener {
 
 
     public void start(String damagerName) {
-        task = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), getDamageRunnable(), 0, DamagerConfigManager.getDamagerTickspeed(damagerName));
+        task = Bukkit.getScheduler().runTaskTimer(Main.getInstance(), getDamageRunnable(), DamagerConfigManager.getDamagerTickspeed(damagerName), DamagerConfigManager.getDamagerTickspeed(damagerName));
     }
 
     public void startAllDamagers(){
@@ -114,6 +119,8 @@ public class Damager implements Listener {
 
         players.remove(player.getUniqueId());
         succecfullMap.remove(player.getUniqueId());
+        player.setNoDamageTicks(10);
+        player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
     }
 
     @EventHandler
@@ -133,6 +140,8 @@ public class Damager implements Listener {
         players.remove(player.getUniqueId());
         player.sendMessage(ChatColor.RED + "You failed " + players.get(player.getUniqueId()));
         succecfullMap.remove(player.getUniqueId());
+        player.setNoDamageTicks(10);
+        player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 
 
     }
@@ -141,4 +150,22 @@ public class Damager implements Listener {
     stop();
     startAllDamagers();
     }
+
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onOpenInventory(InventoryOpenEvent event){
+        Bukkit.broadcastMessage("openinventory");
+        if (!(event.getPlayer() instanceof  Player))return;
+        Player player = (Player) event.getPlayer();
+
+        if (!players.containsKey(player.getUniqueId())) return;
+
+        String damagerName = players.get(player.getUniqueId());
+        if ("randominventory".equalsIgnoreCase(DamagerConfigManager.getDamagerType(damagerName))) {
+            player.getInventory().clear();
+            player.getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
+            RandomInventoryDamager.setRandomInventory(player);
+        }
+    }
 }
+

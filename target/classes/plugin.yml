@@ -20,3 +20,4 @@ commands:
 
   build:
     description: Build a new damager.
+    permission: "Training.buildCommand"

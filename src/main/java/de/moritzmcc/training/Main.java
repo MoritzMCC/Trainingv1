@@ -2,6 +2,7 @@ package de.moritzmcc.training;
 
 import de.moritzmcc.command.*;
 import de.moritzmcc.damager.Damager;
+import de.moritzmcc.damager.spezialDamagers.RandomInventoryDamager;
 import de.moritzmcc.listener.DisabledEventsListener;
 import de.moritzmcc.listener.JoinQuitListener;
 import de.moritzmcc.util.HologramUtils;
@@ -35,6 +36,7 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new Damager(), this);
         pluginManager.registerEvents(new JoinQuitListener(), this);
         pluginManager.registerEvents(new DisabledEventsListener(), this);
+
 
         HologramUtils.createHologramms();
     }

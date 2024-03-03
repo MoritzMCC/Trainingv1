@@ -8,12 +8,12 @@ import java.util.Set;
 public class DamagerConfigManager {
 
     static DamagerConfig config = new DamagerConfig();
-    public static void addDamager(String name, double damage, ChatColor chatColor, Location location, int tickspeed) {
+    public static void addDamager(String name, double damage, ChatColor chatColor, Location location, int tickspeed, String damagerType) {
 
         String configKey = name.toLowerCase();
         location.setY( location.getBlockY() + 3);
 
-        config.add(configKey, damage, chatColor.name(),location, tickspeed);
+        config.add(configKey, damage, chatColor.name(),location, tickspeed, damagerType);
 
     }
 
@@ -58,5 +58,8 @@ public class DamagerConfigManager {
 
     public static int getDamagerTickspeed(String name){
         return config.getDamagerTickspeed(name);
+    }
+    public static String getDamagerType(String name){
+        return config.getDamagerType(name);
     }
 }

@@ -49,12 +49,14 @@ public class DamagerConfig {
 
     }
 
-    public void add(String name, double damage, String chatcolor, Location location, int tickspeed) {
+    public void add(String name, double damage, String chatcolor, Location location, int tickspeed, String damagerType) {
         if (!config.contains(name)) {
             config.set(String.format("%s.Damage", name), damage);
             config.set(String.format("%s.Chatcolor", name), chatcolor);
             config.set(String.format("%s.Location", name), location);
             config.set(String.format("%s.Tickspeed", name), tickspeed);
+            config.set(String.format("%s.DamagerType", name), damagerType);
+
 
         }
         save();
@@ -107,6 +109,11 @@ public class DamagerConfig {
     public int getDamagerTickspeed(String name){
         int tickspeed =  config.getInt(String.format("%s.Tickspeed", name));
         return tickspeed;
+    }
+
+    public String getDamagerType(String name){
+        String damagertype = config.getString(String.format("%s.DamagerType", name));
+        return damagertype;
     }
 
 }

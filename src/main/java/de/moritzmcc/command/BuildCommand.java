@@ -18,6 +18,8 @@ public class BuildCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
+        if (!sender.hasPermission("Training.buildCommand"))return false;
+
         Player player = null;
         if (!(sender instanceof Player)){
             if (args.length != 1) {
