@@ -32,8 +32,7 @@ public class BuildCommand implements CommandExecutor {
         }
 
         if (args.length == 1) player = getPlayerbyName(args[0]);
-
-        if (args.length == 0) player = (Player) sender;
+        else player = (Player) sender;
 
 
         if (playersInBuildMode.contains(player.getUniqueId())) {
