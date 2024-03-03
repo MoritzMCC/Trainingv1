@@ -14,10 +14,9 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryEvent;
-import org.bukkit.event.inventory.InventoryOpenEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
+import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -75,7 +74,7 @@ public class Damager implements Listener {
             inventory.setItem(startSlot, new ItemStack(Material.BOWL, 64));
 
         for (int i = 0; i < 32; i++) {
-            inventory.addItem(new ItemStack(Material.MUSHROOM_STEW));
+            inventory.addItem( new ItemStack(Material.MUSHROOM_STEW));
         }
 
 
@@ -148,7 +147,6 @@ public class Damager implements Listener {
         player.setNoDamageTicks(10);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
 
-
     }
 
     public void restart(){
@@ -157,24 +155,44 @@ public class Damager implements Listener {
     }
 
     @EventHandler(priority =  EventPriority.HIGHEST)
-    public void onOpenInventory(InventoryOpenEvent event){
+    public void onOpenInventory(PlayerInteractEvent event){
 
-        if (event.getInventory().getType() != InventoryType.PLAYER) {
-            Bukkit.broadcastMessage("Not a player inventory");
-            return;
-        }
-        if (!(event.getPlayer() instanceof  Player))return;
+        if (!event.getItem().getType().equals(Material.MUSHROOM_STEW))return;
+
         Player player = (Player) event.getPlayer();
 
         if (!players.containsKey(player.getUniqueId())) return;
-
+        if (hasSoupsInHotbar(player))return;
         String damagerName = players.get(player.getUniqueId());
-        if ("randominventory".equalsIgnoreCase(DamagerConfigManager.getDamagerType(damagerName))) {
-            player.getInventory().clear();
-            player.getInventory().setItem(0, new ItemStack(Material.STONE_SWORD));
-            RandomInventoryDamager.setRandomInventory(player);
+       RandomInventoryDamager.doInventoryFill(player, damagerName);
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onDropSoup(PlayerDropItemEvent event) {
+        if (event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_STEW)) {
+            if (!players.containsKey(event.getPlayer().getUniqueId())) return;
+            if (hasSoupsInHotbar(event.getPlayer()))return;
+            String damagerName = players.get(event.getPlayer().getUniqueId());
+            RandomInventoryDamager.doInventoryFill(event.getPlayer(), damagerName);
         }
     }
+
+    private boolean hasSoupsInHotbar(Player player){
+
+
+        for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
+            ItemStack item = player.getInventory().getItem(hotbarSlot);
+
+            if (item != null && item.getType() == Material.MUSHROOM_STEW) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+
+
 
 
 
