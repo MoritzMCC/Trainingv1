@@ -2,7 +2,9 @@
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/training/Main.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/damager/Damager.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/command/ReloadHolograms.java
+/Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/teleporter/Teleporter.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/command/BuildCommand.java
+/Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/util/InventoryAPI.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/config/DamagerConfig.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/config/DamagerConfigManager.java
 /Users/moritzmcc/Documents/GitHub/Trainingv1/src/main/java/de/moritzmcc/command/RemoveDamager.java

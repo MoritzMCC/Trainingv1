@@ -1,2 +1,4 @@
 de/moritzmcc/damager/spezialDamagers/RandomInventoryDamager.class
+de/moritzmcc/util/InventoryAPI.class
 de/moritzmcc/damager/spezialDamagers/CrapDamager.class
+de/moritzmcc/teleporter/Teleporter.class

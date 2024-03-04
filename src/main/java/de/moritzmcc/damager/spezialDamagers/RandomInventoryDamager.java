@@ -42,7 +42,7 @@ public class RandomInventoryDamager {
         }
         if (inventoryItemsType > 5 && inventoryItemsType < 15) {
 
-            int amount = random.nextInt(8,11);
+            int amount = random.nextInt(4) + 6;
             int rotations = amount;
             List<Integer> positions = new ArrayList<>();
             for (int i = 0; i < rotations; i++) {

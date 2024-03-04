@@ -2,6 +2,8 @@ package de.moritzmcc.damager;
 
 
 import de.moritzmcc.damager.spezialDamagers.RandomInventoryDamager;
+import de.moritzmcc.listener.JoinQuitListener;
+import de.moritzmcc.teleporter.Teleporter;
 import de.moritzmcc.training.Main;
 import de.moritzmcc.config.DamagerConfigManager;
 import de.moritzmcc.util.Area;
@@ -165,6 +167,7 @@ public class Damager implements Listener {
         }
         player.setNoDamageTicks(10);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+        JoinQuitListener.setSpawnItems(player);
 
     }
 
@@ -190,6 +193,7 @@ public class Damager implements Listener {
         if (DamagerConfigManager.getDamagerType(players.get(player.getUniqueId())).equals("crap")){
             timeStamps.remove(player.getUniqueId());
         }
+        JoinQuitListener.setSpawnItems(player);
     }
 
     public void restart(){
@@ -219,6 +223,15 @@ public class Damager implements Listener {
             String damagerName = players.get(event.getPlayer().getUniqueId());
             RandomInventoryDamager.doInventoryFill(event.getPlayer(), damagerName);
         }
+    }
+
+    @EventHandler
+    public void onCloseInventory(InventoryCloseEvent event){
+     if (!players.containsKey(event.getPlayer().getUniqueId()))return;
+     if (!DamagerConfigManager.getDamagerType(players.get(event.getPlayer().getUniqueId())).equals("randominventory"))return;
+     for (int i =9; i< event.getPlayer().getInventory().getSize(); i++){
+         event.getPlayer().getInventory().setItem(i, null);
+     }
     }
 
     private boolean hasSoupsInHotbar(Player player){

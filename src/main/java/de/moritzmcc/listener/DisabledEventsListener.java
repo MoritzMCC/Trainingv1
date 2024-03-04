@@ -15,6 +15,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryMoveItemEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 public class DisabledEventsListener implements Listener {
@@ -53,6 +54,18 @@ public class DisabledEventsListener implements Listener {
 
 
         event.getItemDrop().setItemStack(null);
+    }
+
+    @EventHandler
+    public void onHitPlayer(PlayerInteractEntityEvent event){
+        event.setCancelled(true);
+    }
+
+    @EventHandler
+    public  void onGetDamage(EntityDamageEvent event){
+        if (!(event.getEntity() instanceof Player))return;
+        if (Area.isInDamagerArea(((Player) event.getEntity()).getPlayer()))return;
+        event.setCancelled(true);
     }
 
 

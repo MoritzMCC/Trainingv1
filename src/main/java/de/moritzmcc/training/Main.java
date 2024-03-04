@@ -6,7 +6,9 @@ import de.moritzmcc.damager.spezialDamagers.CrapDamager;
 import de.moritzmcc.damager.spezialDamagers.RandomInventoryDamager;
 import de.moritzmcc.listener.DisabledEventsListener;
 import de.moritzmcc.listener.JoinQuitListener;
+import de.moritzmcc.teleporter.Teleporter;
 import de.moritzmcc.util.HologramUtils;
+import de.moritzmcc.util.InventoryAPI;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -37,6 +39,8 @@ public final class Main extends JavaPlugin {
         pluginManager.registerEvents(new Damager(), this);
         pluginManager.registerEvents(new JoinQuitListener(), this);
         pluginManager.registerEvents(new DisabledEventsListener(), this);
+        pluginManager.registerEvents(new Teleporter(), this);
+        pluginManager.registerEvents(new InventoryAPI(), this);
 
 
 
