@@ -18,7 +18,7 @@ public class AddDamagerCommand implements CommandExecutor {
 
     public AddDamagerCommand(){
         damagerTypes.add("normal");
-        damagerTypes.add("crab");
+        damagerTypes.add("crap");
         damagerTypes.add("randominventory");
 
     }

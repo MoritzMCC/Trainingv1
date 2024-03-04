@@ -18,26 +18,33 @@ import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.scheduler.BukkitTask;
 
 import java.util.*;
 
+import static de.moritzmcc.damager.spezialDamagers.CrapDamager.getRandomItemStack;
+
 public class Damager implements Listener {
 
     public Damager() {
         startAllDamagers();
+        random = new Random();
     }
 
     protected final Map<UUID, String> players = new HashMap<>();
     protected final Map<UUID, Boolean> succecfullMap = new HashMap<>();
+    protected final Map<UUID, Long> timeStamps = new HashMap<>();
     protected BukkitTask task;
+    private int crapTick =1;
+    Random random;
 
 
 @EventHandler
     public void onMove(PlayerMoveEvent event){
-    if (event.getFrom() == event.getTo())return;
+    if (event.getFrom().equals(event.getTo()))return;
     Player player = event.getPlayer();
 
     if (!Area.isInDamagerArea(player)) {
@@ -53,6 +60,14 @@ public class Damager implements Listener {
         onEnter(player, damagername);
     }
 }
+    public void onComplete(Player player) {
+    succecfullMap.put(player.getUniqueId(), true);
+    player.sendMessage("You completed the " + players.get(player.getUniqueId()));
+
+        if (DamagerConfigManager.getDamagerType(players.get(player.getUniqueId())).equals("crap")) {
+            timeStamps.remove(player.getUniqueId());
+        }
+    }
 
 
 
@@ -65,6 +80,10 @@ public class Damager implements Listener {
         player.setNoDamageTicks(DamagerConfigManager.getDamagerTickspeed(damagername));
         inventory.clear();
         inventory.addItem(new ItemStack(Material.STONE_SWORD));
+        int amountSoups;
+        if (!DamagerConfigManager.getDamagerType(damagername).equals("randominventory")){
+            amountSoups = 32;
+
 
             int startSlot = 13;
 
@@ -73,8 +92,14 @@ public class Damager implements Listener {
 
             inventory.setItem(startSlot, new ItemStack(Material.BOWL, 64));
 
-        for (int i = 0; i < 32; i++) {
+        }else amountSoups = 8;
+        for (int i = 0; i < amountSoups; i++) {
             inventory.addItem( new ItemStack(Material.MUSHROOM_STEW));
+        }
+        if (DamagerConfigManager.getDamagerType(players.get(player.getUniqueId())).equals("crap")){
+            Random random = new Random();
+            timeStamps.put(player.getUniqueId(), System.currentTimeMillis() + (random.nextInt(crapTick) + 1) * 1000L);
+
         }
 
 
@@ -92,6 +117,15 @@ public class Damager implements Listener {
                 }
                 Player player = (Player) Bukkit.getEntity(uuid);
                 if (player != null) {
+
+                    if (DamagerConfigManager.getDamagerType(players.get(player.getUniqueId())).equals("crap")){
+                        if (System.currentTimeMillis() > timeStamps.get(uuid)) {
+                            timeStamps.put(player.getUniqueId(), System.currentTimeMillis() + (random.nextInt(crapTick) + 1) * 1000L);
+                            if (hasEmptySpace(player)) {
+                                player.getInventory().addItem(getRandomItemStack());
+                            }
+                        }
+                    }
                     player.damage(getDamage(players.get(player.getUniqueId())));
                 }
             }
@@ -115,16 +149,23 @@ public class Damager implements Listener {
 
     public void stop(){
       task.cancel();
+      this.timeStamps.clear();
     }
 
 
     public void onLeave(Player player) {
         player.sendMessage("You left " + players.get(player.getUniqueId()) );
-
+        String damagerType = DamagerConfigManager.getDamagerType(players.get(player.getUniqueId()));
         players.remove(player.getUniqueId());
         succecfullMap.remove(player.getUniqueId());
+
+
+        if (damagerType.equals("crap")){
+            timeStamps.remove(player.getUniqueId());
+        }
         player.setNoDamageTicks(10);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
+
     }
 
     @EventHandler
@@ -146,7 +187,9 @@ public class Damager implements Listener {
         succecfullMap.remove(player.getUniqueId());
         player.setNoDamageTicks(10);
         player.setHealth(Objects.requireNonNull(player.getAttribute(Attribute.GENERIC_MAX_HEALTH)).getValue());
-
+        if (DamagerConfigManager.getDamagerType(players.get(player.getUniqueId())).equals("crap")){
+            timeStamps.remove(player.getUniqueId());
+        }
     }
 
     public void restart(){
@@ -156,6 +199,7 @@ public class Damager implements Listener {
 
     @EventHandler(priority =  EventPriority.HIGHEST)
     public void onOpenInventory(PlayerInteractEvent event){
+    if (event.getItem() == null) return;
 
         if (!event.getItem().getType().equals(Material.MUSHROOM_STEW))return;
 
@@ -178,8 +222,6 @@ public class Damager implements Listener {
     }
 
     private boolean hasSoupsInHotbar(Player player){
-
-
         for (int hotbarSlot = 0; hotbarSlot < 9; hotbarSlot++) {
             ItemStack item = player.getInventory().getItem(hotbarSlot);
 
@@ -190,11 +232,12 @@ public class Damager implements Listener {
         return false;
     }
 
-
-
-
-
-
+    private boolean hasEmptySpace(Player player) {
+        for (int i = 0; i < player.getInventory().getSize(); i++) {
+          if (player.getInventory().getItem(i) == null)return true;
+        }
+        return false;
+    }
 
 }
 

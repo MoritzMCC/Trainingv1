@@ -1,8 +1,10 @@
 package de.moritzmcc.listener;
 
+import com.sun.imageio.plugins.gif.GIFImageMetadataFormat;
 import de.moritzmcc.command.BuildCommand;
 import de.moritzmcc.config.DamagerConfigManager;
 import de.moritzmcc.util.Area;
+import org.bukkit.Material;
 import org.bukkit.entity.HumanEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -42,7 +44,15 @@ public class DisabledEventsListener implements Listener {
         }
         if (!Area.isInDamagerArea(event.getPlayer())){
             event.setCancelled(true);
+            return;
         }
+        if (event.getItemDrop().getItemStack().getType().equals(Material.MUSHROOM_STEW))return;
+        if (event.getItemDrop().getItemStack().getType().equals(Material.BOWL)){
+            if (event.getItemDrop().getItemStack().getAmount()>1)return;
+        }
+
+
+        event.getItemDrop().setItemStack(null);
     }
 
 
